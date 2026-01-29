@@ -1,0 +1,144 @@
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+<script src="https://embed.twitch.tv/embed/v1.js"></script>
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                colors: {
+                    'twitch-main': '#E64C99',
+                    'twitch-hover': '#FC9DB5',
+                    'tiktok-main': '#08f7f0',
+                    'discord-main': '#5d6af2',
+                    'whatsapp-main': '#20c367',
+                    'youtube-main': '#fe0032',
+                    'insta-main': '#C13584',
+                },
+                fontFamily: {
+                    sans: ['Inter', 'sans-serif'],
+                }
+            }
+        }
+    }
+
+    window.onload = function() {
+        setTimeout(() => {
+            const playerContainer = document.getElementById('twitch-player-container');
+            const offlineMessage = document.getElementById('twitch-offline-message');
+            const twitchChannel = 'kikiinara';
+
+            const parentDomains = ['localhost', 'sites.google.com', 'www.kikii.de'];
+
+            const player = new Twitch.Player('twitch-player-container', {
+                channel: twitchChannel,
+                width: '100%',
+                height: '100%',
+                layout: 'video',
+                autoplay: false,
+                muted: true,
+                parent: parentDomains,
+            });
+
+            player.addEventListener(Twitch.Player.READY, () => {
+                const isLive = player.getChannelIsLive();
+
+                if (isLive) {
+                    playerContainer.classList.remove('hidden');
+                    playerContainer.classList.add('flex');
+                    offlineMessage.classList.add('hidden');
+                } else {
+                    playerContainer.classList.add('hidden');
+                    offlineMessage.classList.remove('hidden');
+                }
+            });
+        }, 300); // Verzögerung leicht erhöht, falls das Timing das Problem war
+    };
+</script>
+
+<style>
+    .social-button {
+        transition: transform 0.2s, box-shadow 0.2s, background-color 0.2s, color 0.2s;
+    }
+    .social-button:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 15px -3px rgba(0, 0, 0, 0.2), 0 3px 6px -2px rgba(0, 0, 0, 0.1);
+    }
+    .insta-hover:hover {
+        background-image: linear-gradient(to right, #fc3e52, #fb8713);
+    }
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        overflow-y: auto;
+    }
+    /* NEUE KORREKTUR FÜR BREITE UND SCROLL-BALKEN */
+    .link-tree-container {
+        overflow-x: hidden;
+    }
+</style>
+
+<div class="text-white font-sans link-tree-container" style="background-color: transparent;">
+    <div class="max-w-3xl mx-auto text-center bg-gray-900/80 p-4 rounded-2xl shadow-2xl border border-twitch-main/50 relative">
+
+        <div class="flex flex-col items-center mb-6">
+            <img src="https://i.imgur.com/rugNlGs.png"
+                    alt="Dein Profilbild"
+                    class="w-32 h-32 rounded-full mx-auto border-4 border-twitch-main shadow-lg object-cover mb-4">
+            <h1 class="text-3xl font-bold text-white">Kikii</h1>
+        </div>
+                
+        <div class="mb-8 w-full bg-gray-800/90 rounded-xl overflow-hidden shadow-xl border border-twitch-main/50 aspect-video relative">
+            
+            <div id="twitch-player-container" class="absolute top-0 left-0 w-full h-full hidden">
+            </div>
+
+            <div id="twitch-offline-message" class="flex flex-col items-center justify-center h-full p-6 text-gray-400">
+                <i class="fab fa-twitch text-5xl text-twitch-main mb-4"></i>
+                <p class="text-xl font-bold mb-1 text-white">Kikii ist aktuell offline</p>
+                <p class="text-sm">Schau später wieder rein oder folge mir, um live dabei zu sein!</p>
+            </div>
+        </div>
+
+        <a href="https://www.twitch.tv/kikiinara" target="_blank" class="social-button block w-full py-4 mb-6 rounded-xl 
+            bg-twitch-main hover:bg-[#944cff] text-gray-200 hover:text-white font-extrabold text-lg 
+            shadow-xl shadow-twitch-main/50 tracking-wider uppercase">
+            <i class="fab fa-twitch mr-3"></i> TWITCH-CHANNEL
+        </a>
+
+        <div class="flex flex-wrap justify-center gap-4 mt-6">
+            <a href="https://discord.com/invite/qH9YVfQ6ya" target="_blank" class="social-button w-full sm:w-[calc(50%-8px)] flex items-center justify-center py-3 px-4 rounded-xl 
+                bg-gray-700/80 hover:bg-[#768ddb] text-gray-200 hover:text-white font-semibold border border-gray-600 group">
+                <i class="fab fa-discord mr-2 text-center text-discord-main"></i> 
+                Discord-Server
+            </a>
+
+            <a href="https://www.instagram.com/kikii_l3/" target="_blank" class="social-button w-full sm:w-[calc(50%-8px)] flex items-center justify-center py-3 px-4 rounded-xl 
+                bg-gray-700/80 insta-hover text-gray-200 hover:text-white font-semibold border border-gray-600 group">
+                <i class="fab fa-instagram mr-2 text-center text-insta-main"></i> 
+                Instagram
+            </a>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-4 mt-4">
+            <a href="https://www.tiktok.com/@kikii_l3" target="_blank" class="social-button w-full sm:w-[calc(33.333%-10.666px)] flex items-center justify-center py-3 px-4 rounded-xl 
+                bg-gray-700/80 hover:bg-[#ff0855] text-gray-200 hover:text-white font-semibold border border-gray-600 group">
+                <i class="fab fa-tiktok mr-2 text-center text-tiktok-main"></i> 
+                TikTok
+            </a>
+
+            <a href="https://www.whatsapp.com/channel/0029VbBHvmF9xVJitOpoZj1i" target="_blank" class="social-button w-full sm:w-[calc(33.333%-10.666px)] flex items-center justify-center py-3 px-4 rounded-xl 
+                bg-gray-700/80 hover:bg-[#7bde7b] text-gray-200 hover:text-white font-semibold border border-gray-600 group">
+                <i class="fab fa-whatsapp mr-2 text-center text-whatsapp-main"></i> 
+                WhatsApp Channel
+            </a>
+
+            <a href="https://www.youtube.com/@kikii_3" target="_blank" class="social-button w-full sm:w-[calc(33.333%-10.666px)] flex items-center justify-center py-3 px-4 rounded-xl 
+                bg-gray-700/80 hover:bg-[#f98080] text-gray-200 hover:text-white font-semibold border border-gray-600 group">
+                <i class="fab fa-youtube mr-2 text-center text-youtube-main"></i> 
+                YouTube
+            </a>
+        </div>
+    </div>
+</div>
